@@ -1,0 +1,20 @@
+<!-- shop/templates/shop/register.html -->
+{% extends "shop/base.html" %}
+{% block title %}Register - Shoe Shop{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Sign Up</h1>
+    <p>Create an account to access personalized features.</p>
+    
+    <!-- Registration form -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Register</button>
+    </form>
+
+    <!-- Link to login page -->
+    <p class="login-link">Already have an account? <a href="{% url 'login' %}">Log in here</a>.</p>
+</div>
+{% endblock %}

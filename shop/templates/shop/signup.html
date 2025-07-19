@@ -1,0 +1,174 @@
+<!-- shop/templates/shop/signup.html -->
+{% extends "shop/base.html" %}
+{% block title %}Sign Up - Shoe Shop{% endblock %}
+
+{% block content %}
+<style>
+    /* Container styling */
+    .form-container {
+        max-width: 400px;
+        margin: 3em auto;
+        padding: 2em;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    /* Form title */
+    .form-container h1 {
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 0.5em;
+        animation: slideInFromTop 0.5s ease-out;
+    }
+
+    /* Descriptive paragraph */
+    .form-container p {
+        color: #666;
+        font-size: 1em;
+        margin-bottom: 1.5em;
+        line-height: 1.6;
+    }
+
+    /* Error and success messages */
+    .form-errors, .form-success {
+        padding: 1em;
+        border-radius: 5px;
+        margin-bottom: 1em;
+        text-align: left;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .form-errors {
+        color: #b30000;
+        background-color: #ffe6e6;
+        border-left: 4px solid #b30000;
+    }
+
+    .form-success {
+        color: #006600;
+        background-color: #e6ffe6;
+        border-left: 4px solid #006600;
+    }
+
+    /* Input styling */
+    .form-container input[type="text"],
+    .form-container input[type="password"],
+    .form-container input[type="email"] {
+        width: 100%;
+        padding: 0.8em;
+        margin: 0.5em 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1em;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-container input[type="text"]:focus,
+    .form-container input[type="password"]:focus,
+    .form-container input[type="email"]:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+    }
+
+    /* Button styling */
+    .form-container .button {
+        display: inline-block;
+        width: 100%;
+        padding: 0.8em;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-top: 1em;
+    }
+
+    .form-container .button:hover {
+        background-color: #0056b3;
+        transform: scale(1.02);
+    }
+
+    /* Login link styling */
+    .login-link {
+        margin-top: 1.5em;
+        font-size: 0.9em;
+    }
+
+    .login-link a {
+        color: #007bff;
+        text-decoration: underline;
+        transition: color 0.3s ease;
+    }
+
+    .login-link a:hover {
+        color: #0056b3;
+        text-decoration: none;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInFromTop {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="form-container">
+    <h1>Sign Up</h1>
+    <p>Create your account to enjoy personalized shopping features.</p>
+    
+    <!-- Display messages for form errors -->
+    {% if form.errors %}
+        <div class="form-errors">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Display success message -->
+    {% if message %}
+        <div class="form-success">
+            <p>{{ message }}</p>
+        </div>
+    {% endif %}
+
+    <!-- Sign Up Form -->
+    <form method="post" class="signup-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Sign Up</button>
+    </form>
+
+    <!-- Link to login page -->
+    <p class="login-link">Already have an account? <a href="{% url 'login' %}">Log in here</a>.</p>
+</div>
+{% endblock %}

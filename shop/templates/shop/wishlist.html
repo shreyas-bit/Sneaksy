@@ -1,0 +1,115 @@
+{% extends "shop/base.html" %}
+{% block title %}Your Wishlist - Shoe Shop{% endblock %}
+
+{% block content %}
+<style>
+    /* Container Styling */
+    .products {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2em;
+        justify-content: center;
+        padding: 2em;
+        background-color: #f9f9f9;
+    }
+
+    /* Wishlist Item Card */
+    .product-card {
+        width: 260px;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        padding: 1em;
+    }
+
+    .product-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Image Styling */
+    .product-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-bottom: 2px solid #007bff;
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover img {
+        transform: scale(1.08);
+    }
+
+    /* Product Title */
+    .product-card h2 {
+        font-size: 1.4em;
+        color: #333;
+        margin: 0.5em 0;
+    }
+
+    /* Price Styling */
+    .price {
+        font-size: 1.3em;
+        color: #007bff;
+        margin: 0.5em 0 1em;
+        font-weight: bold;
+    }
+
+    /* Button Styling */
+    .button {
+        display: inline-block;
+        padding: 0.7em 1.5em;
+        margin: 0.5em 0.2em;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 0.9em;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    /* Message for Empty Wishlist */
+    .no-products {
+        text-align: center;
+        font-size: 1.2em;
+        color: #888;
+        margin-top: 2em;
+    }
+
+    /* Page Title Styling */
+    h1 {
+        text-align: center;
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 1em;
+    }
+</style>
+
+<!-- Wishlist Content -->
+<h1>Your Wishlist</h1>
+
+{% if wishlist_items %}
+    <div class="products">
+        {% for product in wishlist_items %}
+            <div class="product-card">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <h2>{{ product.name }}</h2>
+                <p class="price">€{{ product.price }}</p>
+                <a href="{% url 'product_detail' product.id %}" class="button">View Details</a>
+                <a href="{% url 'add_to_cart' product.id %}" class="button">Add to Cart</a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-products">Your wishlist is empty.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,102 @@
+<!-- shop/templates/shop/order_history.html -->
+{% extends "shop/base.html" %}
+{% load cart_extras %} <!-- Ensure to load your custom template filters for sum calculations -->
+{% block title %}Order History{% endblock %}
+
+{% block content %}
+<style>
+    /* Page Container Styling */
+    .order-history {
+        max-width: 900px;
+        margin: 2em auto;
+        padding: 2em;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Order Card Styling */
+    .order {
+        padding: 1.5em;
+        margin-bottom: 1.5em;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .order:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transform: translateY(-3px);
+    }
+
+    /* Order Title Styling */
+    .order h3 {
+        font-size: 1.5em;
+        color: #007bff;
+        margin-bottom: 0.5em;
+    }
+
+    .order p, .order li {
+        font-size: 1em;
+        color: #555;
+        margin-bottom: 0.3em;
+    }
+
+    /* Items List */
+    .order ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0.5em 0 1em;
+    }
+
+    .order ul li {
+        padding: 0.5em 0;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Total Price Styling */
+    .total {
+        font-size: 1.2em;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 1em;
+        color: #007bff;
+    }
+
+    /* Empty Orders Message */
+    .empty-orders {
+        text-align: center;
+        font-size: 1.2em;
+        color: #888;
+        margin-top: 2em;
+    }
+</style>
+
+<div class="order-history">
+    <h1>Your Orders</h1>
+
+    {% for order in orders %}
+        <div class="order">
+            <h3>Order ID: {{ order.id }}</h3>
+            <p><strong>Order Date:</strong> {{ order.created_at }}</p>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+
+            <h4>Items:</h4>
+            <ul>
+                {% for item in order.items.all %}
+                    <li>{{ item.product.name }} - {{ item.quantity }} x €{{ item.product.price }}</li>
+                {% endfor %}
+            </ul>
+
+            <!-- Display total price for this order using a custom sum filter on item prices -->
+            <p class="total"><strong>Total:</strong> €<span>{{ order.items.all|sum_total }}</span></p>
+        </div>
+    {% empty %}
+        <p class="empty-orders">No orders yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
